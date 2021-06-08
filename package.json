@@ -1,0 +1,26 @@
+{
+  "name": "positron",
+  "version": "0.0.1",
+  "description": "Node framework for unpacking, patching, and re-packing electron applications",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexsobiek/positron.git"
+  },
+  "keywords": [
+    "Electron"
+  ],
+  "author": "Alex Sobiek",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexsobiek/positron/issues"
+  },
+  "homepage": "https://github.com/alexsobiek/positron#readme",
+  "dependencies": {
+    "asar": "^3.0.3",
+    "diff": "^5.0.0"
+  }
+}
