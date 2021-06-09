@@ -48,11 +48,11 @@ module.exports = class {
             const localDir = sourcePath.slice(this.sourceDir.length);
             const patchPath = path.join(this.patchDir, localDir);
 
-            if (fs.statSync(sourcePath).isDirectory() && !sourcePath.endsWith("node_modules")) {
+            if (fs.statSync(sourcePath).isDirectory() && !sourcePath.endsWith("node_modules") && !sourcePath.endsWith(".positron")) {
                 if (!fs.existsSync(patchPath)) fs.mkdirSync(patchPath, { recursive: true });
                 this.makePatches(sourcePath);
             } else {
-                if (!file.endsWith("node_modules")) {
+                if (!file.endsWith("node_modules") && !file.endsWith(".positron")) {
                     console.log("Checking " + sourcePath);
                     fs.readFile(sourcePath, 'utf8',(err, fileData) => {
                         if (err) throw err;
