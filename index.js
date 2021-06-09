@@ -56,7 +56,7 @@ module.exports = class {
                     console.log("Checking " + sourcePath);
                     fs.readFile(sourcePath, 'utf8',(err, fileData) => {
                         if (err) throw err;
-                        fs.readFile(path.join(this.sourceDir, "..", ".positron", localDir), 'utf8', (err, originalData) => {
+                        fs.readFile(path.join(this.sourceDir, ".positron", localDir), 'utf8', (err, originalData) => {
                             if (err) throw err;
                             const patchData = diff.createPatch(name, originalData, fileData, "", "");
                             const patchFile = patchPath + ".patch";
