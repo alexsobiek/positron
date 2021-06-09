@@ -80,7 +80,6 @@ module.exports = class {
         files.forEach((file) => {
             const sourcePath = path.join(dir, file);
             const localDir = sourcePath.slice(this.patchDir.length);
-            console.log(localDir);
             if (fs.statSync(sourcePath).isDirectory()) this.applyPatches(sourcePath);
             else {
                 const destPath = path.join(this.sourceDir, localDir.slice(0, -6));
