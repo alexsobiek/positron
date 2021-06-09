@@ -86,17 +86,17 @@ module.exports = class {
                 console.log("Applying patch " + sourcePath + " to " + destPath);
 
                 fs.readFile(sourcePath, 'utf8', (err, sourceData) => {
-                   if (err) throw err;
-                   fs.readFile(destPath, 'utf8', (err, destData) => {
-                       if (err) throw err;
-                       const newData = diff.applyPatch(destData, sourceData);
-                       if (newData !== false) {
-                           fs.writeFile(destPath, newData, (err) => {
-                               if (err) throw err;
-                               console.log("Applied patch to " + destPath);
-                           });
-                       } else console.log("Skipping patch for " + destPath);
-                   })
+                    if (err) throw err;
+                    fs.readFile(destPath, 'utf8', (err, destData) => {
+                        if (err) throw err;
+                        const newData = diff.applyPatch(destData, sourceData);
+                        if (newData !== false) {
+                            fs.writeFile(destPath, newData, (err) => {
+                                if (err) throw err;
+                                console.log("Applied patch to " + destPath);
+                            });
+                        } else console.log("Skipping patch for " + destPath);
+                    })
                 });
             }
         });
@@ -105,13 +105,13 @@ module.exports = class {
     package = () => {
         const originPackage = this.asarPackage.slice(0, -5) + "-original.asar";
         if (fs.existsSync(originPackage)) {
-            asar.createPackage(this.sourceDir, this.asarPackage).then((res) => {
+            asar.createPackage(path.join(this.sourceDir, this.packageName), this.asarPackage).then((res) => {
                 console.log("Created package from sources.");
             }).catch(console.error);
         } else {
             fs.copyFile(this.asarPackage, originPackage, (err) => {
                 if (err) throw err;
-                asar.createPackage(this.sourceDir, this.asarPackage).then((res) => {
+                asar.createPackage(path.join(this.sourceDir, this.packageName), this.asarPackage).then((res) => {
                     console.log("Created package from sources.");
                 }).catch(console.error);
             })
