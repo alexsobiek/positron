@@ -105,11 +105,17 @@ module.exports = class {
 
     package = () => {
         const originPackage = this.asarPackage.slice(0, -5) + "-original.asar";
-        fs.copyFile(this.asarPackage, originPackage, (err) => {
-            if (err) throw err;
+        if (fs.existsSync(originPackage)) {
             asar.createPackage(this.sourceDir, this.asarPackage).then((res) => {
                 console.log("Created package from sources.");
             }).catch(console.error);
-        })
+        } else {
+            fs.copyFile(this.asarPackage, originPackage, (err) => {
+                if (err) throw err;
+                asar.createPackage(this.sourceDir, this.asarPackage).then((res) => {
+                    console.log("Created package from sources.");
+                }).catch(console.error);
+            })
+        }
     }
 }
