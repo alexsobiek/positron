@@ -2,6 +2,12 @@
 Node framework for unpacking, patching, and re-packing [electron](https://www.electronjs.org) applications
 
 ## Usage
+Packaged Electron apps store their JavaScript source code in `.asar` packages 
+([more info](https://github.com/electron/asar)). This framework will read those asar packages, output the JavaScript
+source to a pre-defined directory and any changes made to those files can be used to generate patch files. Those patch
+files can then be stored and applied to the source later on which can then be used to re-package the source for the
+electron app. 
+
 ### Installation
 ```
 npm i https://github.com/alexsobiek/positron
@@ -15,7 +21,6 @@ const sourceDir = path.join(__dirname, "source");       // Where we should dump 
 const patchDir = path.join(__dirname, "patches");       // Where we should create and read patches from
 
 const positron = new Positron(asarPackage, sourceDir, patchDir);    // Create new Positron instance
-
 ```
 
 #### Unpackaging
