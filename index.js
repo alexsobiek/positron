@@ -3,7 +3,6 @@ const asar = require("asar");
 const path = require("path");
 const diff = require("diff");
 
-
 module.exports = class {
     /**
      * Constructor for Positron
@@ -12,7 +11,7 @@ module.exports = class {
      * @param patchDir Directory to create patches in
      */
     constructor(asarPackage, sourceDir, patchDir) {
-        this.package = asarPackage;
+        this.asarPackage = asarPackage;
         this.sourceDir = sourceDir;
         this.patchDir = patchDir;
 
@@ -32,8 +31,9 @@ module.exports = class {
      * Unpackages the asar package
      */
     unpackage = () => {
-        asar.extractAll(this.package, path.join(__dirname, this.sourceDir, this.packageName));
-        asar.extractAll(this.package, path.join(__dirname, this.sourceDir, ".positron", this.packageName));
+        asar.extractAll(this.asarPackage, path.join(this.sourceDir, this.packageName));
+        asar.extractAll(this.asarPackage, path.join(this.sourceDir, ".positron", this.packageName));
+        console.log("Unpackaged contents of " + this.asarPackage + " to " + this.sourceDir);
     }
 
     /**
@@ -90,9 +90,7 @@ module.exports = class {
                    if (err) throw err;
                    fs.readFile(destPath, 'utf8', (err, destData) => {
                        if (err) throw err;
-
                        const newData = diff.applyPatch(destData, sourceData);
-                       console.log(newData);
                        if (newData !== false) {
                            fs.writeFile(destPath, newData, (err) => {
                                if (err) throw err;
@@ -106,6 +104,12 @@ module.exports = class {
     }
 
     package = () => {
-
+        const originPackage = this.asarPackage.slice(0, -5) + "-original.asar";
+        fs.copyFile(this.asarPackage, originPackage, (err) => {
+            if (err) throw err;
+            asar.createPackage(this.sourceDir, this.asarPackage).then((res) => {
+                console.log("Created package from sources.");
+            }).catch(console.error);
+        })
     }
 }
